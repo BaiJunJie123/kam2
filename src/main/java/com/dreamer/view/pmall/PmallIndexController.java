@@ -60,6 +60,7 @@ public class PmallIndexController {
      * @param model
      * @return
      */
+    //==================bjj update 只有股东才会显示活动口红
     @RequestMapping(value = {"/show.html", "/show"}, method = RequestMethod.GET)
     public String show(@ModelAttribute("parameter") SearchParameter<PmallGoods> parameter, HttpServletRequest request, Model model, Integer myCode) {
 
@@ -103,12 +104,20 @@ public class PmallIndexController {
                 dto.setWallImgUrl(wallImgUrl);
                 dtos.add(dto);
             });
+         // bjj update
+            String jiname = request.getSession().getAttribute("jiname").toString();
+            int num = mallGoodsHandler.findkam(jiname);
+            System.out.println(num);
+            if(num<=0) {
+            	dtos.remove(dtos.size()-1);
+            }
             model.addAttribute("ztGoods",dtos);
         }
         model.addAttribute("jsapiParamJson", jsonParam);
         model.addAttribute("pTypes",list);
         list.remove(0);
         model.addAttribute("pType",list.get(0).getId());//首次只展示这种分类
+        
         return "pmall/pmall_show";
     }
 
@@ -132,6 +141,8 @@ public class PmallIndexController {
     public String detail(@RequestParam("id") Integer id, HttpServletRequest request, Integer myCode, Model model) {
         try {
             PmallGoods g = mallGoodsHandler.get(id);
+         // bjj work kouhong 
+            List<PmallGoods> kouhong = mallGoodsHandler.findkonghong();
             PointsGoodsDTO dto = new PointsGoodsDTO();
             dto.setId(g.getId());
             dto.setPrice(g.getPrice());
@@ -162,6 +173,7 @@ public class PmallIndexController {
             if(!WebUtil.isLogin(request)&&myCode!=null){
                 request.getSession().setAttribute("refCode",myCode);
             }
+            model.addAttribute("kh",kouhong);
             model.addAttribute("jsapiParamJson", jsonParam);
             model.addAttribute("goods", dto);
             List<Comment> comments = commentHandler.findByGid(1,id,100);
@@ -185,6 +197,7 @@ public class PmallIndexController {
 //        response.setHeader("Access-Control-Allow-Origin", "*");
         param.getEntity().setShelf(true);
         List<PmallGoods> goods = mallGoodsHandler.findMallGoods(param);
+        
         List<PointsGoodsDTO> dtos = new ArrayList<>();
         goods.forEach(g -> {
             PointsGoodsDTO dto = new PointsGoodsDTO();

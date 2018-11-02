@@ -153,7 +153,11 @@
 
 
     <c:forEach items="${ztGoods}" var="zt">
+     
         <div class="col-xs-12 col-md-6 col">
+        <%--  <c:if test="${zt.name == '口红4'}">
+      	
+     	 </c:if> --%>
             <a href="<c:url value='/dmz/pmall/detail.html?id='/>${zt.id}">
                 <img class="img-responsive" src="${dmzImgPath}${zt.wallImgUrl}" alt="${zt.name}">
             </a>

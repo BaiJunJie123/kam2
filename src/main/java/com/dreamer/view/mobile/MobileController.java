@@ -121,6 +121,7 @@ public class MobileController {
             //登陆
             WebUtil.addCurrentUser(request, agent);
             WebUtil.login(request);
+            request.getSession().setAttribute("jiname", name);
             return Message.createSuccessMessage();
         } catch (Exception e) {
             e.printStackTrace();

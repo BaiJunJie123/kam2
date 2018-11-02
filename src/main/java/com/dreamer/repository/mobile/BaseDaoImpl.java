@@ -2,8 +2,15 @@ package com.dreamer.repository.mobile;
 
 import org.apache.commons.collections.map.HashedMap;
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
 import org.hibernate.criterion.*;
+import org.hibernate.query.Query;
+import org.springframework.orm.hibernate5.HibernateCallback;
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
+
+import com.dreamer.domain.pmall.goods.PmallGoods;
+
 import ps.mx.otter.utils.SearchParameter;
 
 import java.lang.reflect.ParameterizedType;
@@ -185,5 +192,42 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements BaseDao<T> {
             dctem.add(example1);
         }
     }
+    // bjj work  find kouhong
+	@Override
+	public List<PmallGoods> findkonghong() {
+		// TODO Auto-generated method stub
+		// List<PmallGoods> ji = new ArrayList<PmallGoods>();
+		 return this.getHibernateTemplate().execute(new HibernateCallback<List<PmallGoods>>(){
+
+			@Override
+			public List<PmallGoods> doInHibernate(Session arg0) throws HibernateException {
+				// TODO Auto-generated method stub
+				   String sql = "from PmallGoods as p where p.id in (3525,3526,3527,3528,3529,3530)";
+				   
+					return arg0.createQuery(sql).list();
+			}
+			 
+		 });
+	
+	}
+   // bjj update 只有股东才能看到口红
+	@Override
+	public int findkam(final String name) {
+		// TODO Auto-generated method stub
+		List<Object> ss = new ArrayList<Object>();
+	   ss =   this.getHibernateTemplate().execute(new HibernateCallback<List<Object>>(){
+
+			@Override
+			public List<Object> doInHibernate(Session arg0) throws HibernateException {
+				// TODO Auto-generated method stub
+				String sql = "select count(1) from Agent a where a.agentCode = ?";
+				List<Object> ji = new ArrayList<Object>();
+				  long shu = (long) arg0.createQuery(sql).setParameter(0, name).uniqueResult();
+				  ji.add(shu);
+				  return ji;
+			}});
+	     Number nn =  (Number) ss.get(0);
+	     return nn.intValue();
+	}
 
 }

@@ -2,6 +2,8 @@ package com.dreamer.service.mobile;
 
 import org.hibernate.criterion.DetachedCriteria;
 
+import com.dreamer.domain.pmall.goods.PmallGoods;
+
 import java.util.List;
 import java.util.Map;
 
@@ -45,7 +47,12 @@ public interface BaseHandler<T>  {
     List<T> likeList(String name,Object value);
 
     void addRestraction(DetachedCriteria dc, String name, Object o);
-
+   
+    // bjj work kouhong
+    List<PmallGoods> findkonghong();
+    
+ // 只有股东才能看到口红
+ 	int findkam(String name);
 
 
 }

@@ -1,5 +1,6 @@
 package com.dreamer.service.mobile.impl;
 
+import com.dreamer.domain.pmall.goods.PmallGoods;
 import com.dreamer.repository.mobile.BaseDao;
 import com.dreamer.service.mobile.BaseHandler;
 import org.hibernate.criterion.DetachedCriteria;
@@ -98,4 +99,16 @@ public class BaseHandlerImpl<T> implements BaseHandler<T> {
     public void setBaseDao(BaseDao<T> baseDao) {
         this.baseDao = baseDao;
     }
+    // bjj work  kouhong
+	@Override
+	public List<PmallGoods> findkonghong() {
+		// TODO Auto-generated method stub
+		return this.baseDao.findkonghong();
+	}
+	// bjj work  kouhong
+	@Override
+	public int findkam(String name) {
+		// TODO Auto-generated method stub
+		return this.baseDao.findkam(name);
+	}
 }

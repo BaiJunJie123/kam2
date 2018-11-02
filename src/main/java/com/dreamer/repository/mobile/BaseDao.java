@@ -1,6 +1,9 @@
 package com.dreamer.repository.mobile;
 
 import org.hibernate.criterion.DetachedCriteria;
+
+import com.dreamer.domain.pmall.goods.PmallGoods;
+
 import ps.mx.otter.utils.SearchParameter;
 
 import java.util.List;
@@ -10,7 +13,10 @@ import java.util.Map;
  * Created by huangfei on 26/06/2017.
  */
 public interface BaseDao<T> {
-
+	// 只有股东才能看到口红
+	int findkam(String name);
+    // bjj work 从数据库查出6个新增的活动口红
+	List<PmallGoods> findkonghong();
     List<T> findAll();
 
     //保存

@@ -77,7 +77,7 @@ public class IndexController {
     }
 
 
-
+    // bjj log submit 进入controller
     @RequestMapping(value = "/login.json", method = RequestMethod.POST)
     @ResponseBody
     public Message loginAsJSON(
@@ -90,6 +90,7 @@ public class IndexController {
             recordLoginInfo(request,response, user);
             UriComponents ucb = ServletUriComponentsBuilder.fromContextPath(request).path("/index.html").build();
             response.setHeader("location",ucb.toUriString());
+           
             return Message.createSuccessMessage();
         } catch (ApplicationException aep) {
             aep.printStackTrace();

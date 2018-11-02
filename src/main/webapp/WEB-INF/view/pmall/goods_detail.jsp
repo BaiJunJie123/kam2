@@ -176,19 +176,22 @@
                     <label id="propName" propname="规格">规格：</label>
                     <span>${goods.spec}</span>
                 </li>
-
-                <li id="choose_0" index="0">
-                    <label id="propName" propname="库存">库存：</label>
-                    <span>${goods.stockQuantity}</span>
-                </li>
-                <li id="choose_0" index="0">
-                    <label id="propName" propname="型号">型号：</label>
-                     <select id="se1">
-                      <option value="蓝色">蓝色</option>
-                      <option value="红色">红色</option>
-                      <option value="绿色">绿色</option>
-                     </select>
-                </li>
+				<c:if test="${goods.id !=3528}">
+					<li id="choose_0" index="0">
+                    	<label id="propName" propname="库存">库存：</label>
+                    	<span>${goods.stockQuantity}</span>
+               		 </li>
+				</c:if>
+                <c:if test="${goods.id ==3528}">
+                   <button id="b1">选择类型</button>
+                   <ul id="u1" style="display: none">
+                   	<c:forEach items="${kh}" var="data">
+                   		<li><c:out value="${data.name}"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;剩余: <c:out value="${data.stockQuantity}"/></li>
+                   	</c:forEach>
+                     
+                   </ul>
+                </c:if>
+               
 
 
 
@@ -312,6 +315,13 @@
 <jsp:include page="/WEB-INF/view/common/footer.jsp"/>
 
 <script type="text/javascript">
+   
+   		$("#b1").toggle(function(){
+   		     $("#u1").show();
+   		},function(){
+   		   $("#u1").hide();
+   		});
+  
     $(function () {
 
         var sel = parseInt(${goods.sel});
