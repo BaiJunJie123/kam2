@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.dreamer.domain.mall.securityCode.CodeSegment" table="code_segment">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="native" />
+        </id>
+
+        <property name="prefix" type="java.lang.String">
+            <column name="prefix">
+                <comment>前缀</comment>
+            </column>
+        </property>
+
+        <property name="startCode" type="java.lang.Integer"></property>
+
+        <property name="endCode" type="java.lang.Integer"></property>
+
+        <property name="codeNumber" type="java.lang.Integer"></property>
+
+        <property name="startBox" type="java.lang.Integer"></property>
+
+        <property name="endBox" type="java.lang.Integer"></property>
+
+        <property name="boxNumber" type="java.lang.Integer"></property>
+
+        <property name="info" type="java.lang.String"></property>
+
+        <property name="date" type="java.util.Date"></property>
+
+    </class>
+</hibernate-mapping>

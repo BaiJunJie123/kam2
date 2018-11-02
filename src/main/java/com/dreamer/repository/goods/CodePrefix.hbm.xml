@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.dreamer.domain.mall.securityCode.CodePrefix" table="code_prefix">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="native" />
+        </id>
+
+        <property name="name" type="java.lang.String">
+            <column name="name">
+                <comment>名字</comment>
+            </column>
+        </property>
+
+        <property name="url" type="java.lang.String">
+            <column name="url">
+                <comment>链接名</comment>
+            </column>
+        </property>
+
+        <property name="cp" type="java.lang.String">
+            <column name="cp">
+                <comment>小码参数名</comment>
+            </column>
+        </property>
+
+        <property name="bp" type="java.lang.String">
+            <column name="bp">
+                <comment>大码参数名</comment>
+            </column>
+        </property>
+
+    </class>
+</hibernate-mapping>

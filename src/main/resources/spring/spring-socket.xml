@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:websocket="http://www.springframework.org/schema/websocket"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket.xsd">
+
+    <!--<bean id="messageHandler" class="com.dreamer.service.mobile.MessageHandler"/>-->
+
+    <!--<websocket:handlers allowed-origins="*">-->
+        <!--<websocket:mapping path="/messageHandler" handler="messageHandler"/>-->
+        <!--&lt;!&ndash;配置握手 设置copyid 为false就复制所有session的值到websocket  看源码&ndash;&gt;-->
+        <!--<websocket:handshake-interceptors>-->
+            <!--<bean id="handshakeInterceptor"-->
+                  <!--class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor">-->
+                <!--<property name="copyHttpSessionId" value="false"/>-->
+            <!--</bean>-->
+        <!--</websocket:handshake-interceptors>-->
+        <!--<websocket:sockjs/>-->
+    <!--</websocket:handlers>-->
+
+
+    <!--<bean class="org.springframework.web.socket.server.standard.ServletServerContainerFactoryBean">-->
+        <!--<property name="maxTextMessageBufferSize" value="8192"/>-->
+        <!--<property name="maxBinaryMessageBufferSize" value="8192"/>-->
+    <!--</bean>-->
+
+</beans>

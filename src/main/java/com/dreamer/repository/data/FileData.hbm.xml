@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.dreamer.domain.account">
+	<class name="com.dreamer.domain.data.FileData" table="file_data">
+
+        <id name="id" type="java.lang.Integer">
+			<column name="id" />
+			<generator class="native" />
+		</id>
+
+		<property name="name" type="java.lang.String"/>
+
+		<property name="url" type="java.lang.String"/>
+
+		<property name="paw" type="java.lang.String"/>
+
+
+	</class>
+</hibernate-mapping>

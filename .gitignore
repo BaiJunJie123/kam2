@@ -1,0 +1,9 @@
+
+/out/
+/target/
+/src/main/resources/zmzchat.properties
+/src/main/resources/jdbc.properties
+/src/main/resources/hzcchat.properties
+/.idea/
+/newkam.iml
+/src/main/main.iml
