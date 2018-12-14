@@ -300,6 +300,7 @@
                 function (data, status, jqXHR) {
                     var m = data;
                     if (m.flag == "0") {
+                       
                         alert("订单提交成功，前往支付页面!");
                         window.location.href = "<c:url value='/pm/order/myOrder.html'/>";
                     } else {

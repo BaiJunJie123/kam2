@@ -68,7 +68,7 @@
                             <%--<span></span>--%>
                         <%--</label>--%>
                     </div>
-                        ${item.value.goods.name}</li>
+                        ${item.value.goods.name}<input type="hidden" value="${item.value.goods.id}" id="${item.value.goods.id}" name="jiID"/></li>
                 <li class="list-group-item hproduct clearfix">
                     <div class="p-pic"><a href="#"><img class="img-responsive"
                                                         src="${dmzImgPath}${item.value.goods.imgFile}"></a></div>
@@ -87,11 +87,22 @@
                         </p>
                     </div>
                 </li>
-                <li class="list-group-item clearfix">
+                  <li class="list-group-item clearfix">
                     <div class="pull-left mt5">
                         <span class="gary">小计：</span>
                         <em class="red productTotalPrice">${item.value.amount}+p${item.value.ticket}</em>
                     </div>
+                   <c:if test="${item.value.goods.id ==3525 || item.value.goods.id ==3526 || item.value.goods.id ==3527 || item.value.goods.id ==3528 || item.value.goods.id ==3529 || item.value.goods.id ==3530}">
+                    <div class="btn-group btn-group-sm control-num" style="display: none">
+                        <button class="btn btn-default minsBtn" type="button"><span class="gary">-</span></button>
+                        <input lastQ="${item.value.quantity}" data-id="${item.value.goods.id}" type="tel"
+                               class="btn gary2 Amount quantity" value="${item.value.quantity}" maxlength="4"
+                               skuId="1358">
+                            <%--<button class="btn btn-default addBtn"  type="button" >+</button>--%>
+                        <button class="btn btn-default addBtn" type="button"><span class="gary">+</span></button>
+                    </div>
+                   </c:if>
+                   <c:if test="${item.value.goods.id !=3525 && item.value.goods.id !=3526 && item.value.goods.id !=3527 && item.value.goods.id !=3528 && item.value.goods.id !=3529 && item.value.goods.id !=3530}">
                     <div class="btn-group btn-group-sm control-num">
                         <button class="btn btn-default minsBtn" type="button"><span class="gary">-</span></button>
                         <input lastQ="${item.value.quantity}" data-id="${item.value.goods.id}" type="tel"
@@ -100,7 +111,26 @@
                             <%--<button class="btn btn-default addBtn"  type="button" >+</button>--%>
                         <button class="btn btn-default addBtn" type="button"><span class="gary">+</span></button>
                     </div>
+                   </c:if>
                 </li>
+              
+                <%-- <c:if test="${item.value.goods.id ==3525 || item.value.goods.id ==3527  || item.value.goods.id ==3526 || item.value.goods.id ==3528 && item.value.goods.id ==3529 || item.value.goods.id ==3530}">
+                    <li class="list-group-item clearfix">
+                    <div class="pull-left mt5">
+                        <span class="gary">小计：</span>
+                        <em class="red productTotalPrice">${item.value.amount}+p${item.value.ticket}</em>
+                    </div>
+                     <div class="btn-group btn-group-sm control-num">
+                        <button class="btn btn-default minsBtn" type="button"><span class="gary">-</span></button>
+                        <input lastQ="${item.value.quantity}" data-id="${item.value.goods.id}" type="tel"
+                               class="btn gary2 Amount quantity" value="${item.value.quantity}" maxlength="4"
+                               skuId="1358">
+                            <button class="btn btn-default addBtn"  type="button" >+</button>
+                        <button class="btn btn-default addBtn" type="button"><span class="gary">+</span></button>
+                    </div>
+                   </li>
+                </c:if> --%>
+                
             </ul>
         </div>
     </c:forEach>
@@ -219,8 +249,24 @@
                 removeItem($(this), $(this).attr("data-id"));
             }
         });
-
+        // bjj  提交订单
         $(".btn-buy").click(function (e) {
+        var  obj = document.getElementsByName("jiID");
+         
+          var num = 0;
+          for(var i =0;i<obj.length;i++){
+              var kk = obj[i].id;
+              alert(kk);
+              if(kk =="3525" || kk == "3526" || kk == "3527" || kk == "3528" || kk == "3529" || kk == "3530"){
+                 num++;
+             } 
+             
+          }
+           if(num>1){
+            alert("限购口红只能购买一个");
+            return;
+           }
+          
             e.preventDefault();
             e.stopPropagation();
             var url = $(this).attr("data-url");

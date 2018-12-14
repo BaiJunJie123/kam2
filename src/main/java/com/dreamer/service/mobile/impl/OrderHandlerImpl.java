@@ -35,7 +35,11 @@ import org.springframework.transaction.annotation.Transactional;
 import ps.mx.otter.exception.ApplicationException;
 import ps.mx.otter.utils.SearchParameter;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
+
 import java.util.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by huangfei on 11/07/2017.
@@ -68,10 +72,10 @@ public class OrderHandlerImpl extends BaseHandlerImpl<Order> implements OrderHan
         order.setQuantity(shopCart.getQuantity());//设置总数量
         //先查看物流费是否有二十元
         Agent ta = order.getUser();
-        Double limit = 20.0;
+        Double limit = 80.0;
         Double balance = ta.getAccounts().getPurchaseBalance();
         if(balance<limit&&flag){
-            throw new ApplicationException("物流费不足20元，请充值后下单!");
+            throw new ApplicationException("物流费不足80元，请充值后下单!");
         }
         //提交订单
         commitOrder(order);
@@ -93,7 +97,8 @@ public class OrderHandlerImpl extends BaseHandlerImpl<Order> implements OrderHan
         Agent agent = agentHandler.get(order.getUser().getId());
         WxConfig wxConfig = wxConfigFactory.getPayConfig();
         SdkResult sdkResult = JSAPI.getTokenAndOpenId(wxConfig.getAppid(), wxConfig.getSecret(), code);
-        if (sdkResult.isSuccess()) {//获取openId成功了  就去支付
+         // bjj update sdkResult.isSuccess()
+        if (true) {//获取openId成功了  就去支付
             JSONObject jsonObject = (JSONObject) sdkResult.getData();
             try {
 //                if (agent.getPayOpenid() == null || !agent.getPayOpenid().equals(jsonObject.getString("openid"))) {
@@ -104,6 +109,7 @@ public class OrderHandlerImpl extends BaseHandlerImpl<Order> implements OrderHan
                 System.out.println("异常:" + e.getMessage());
             }
             String jsApiParam = payHandler.toWxPay(wxConfig, agent.getPayOpenid(), order.getOrderNo(), order.getAmount(), WxConfig.PMALL_NOTICE_URL);
+            //jsApiParam bjj update
             return jsApiParam;
         } else {
             LOG.error("获取payOpenid失败:{}", sdkResult.getError());
@@ -330,10 +336,11 @@ public class OrderHandlerImpl extends BaseHandlerImpl<Order> implements OrderHan
         return orderDao.searchByPage(p, dc);
     }
 
-
+    // ==========================首页订单============
     @Override
     public List<Order> findOrdersWithChildren(SearchParameter<Order> p) {
         DetachedCriteria dc = DetachedCriteria.forClass(Order.class);
+        
         Example example = Example.create(p.getEntity()).enableLike(MatchMode.ANYWHERE);
         dc.add(example);
         //下单人搜索

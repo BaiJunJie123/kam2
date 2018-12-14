@@ -87,6 +87,8 @@
             padding-bottom: 0.8em;
             border-bottom: 1px solid #ebebeb;
         }
+    
+    .selected{font-weight:bold; background: #ff99cc; color:#fff;}
 
 
 
@@ -186,7 +188,7 @@
                    <button id="b1">选择类型</button>
                    <ul id="u1" style="display: none">
                    	<c:forEach items="${kh}" var="data">
-                   		<li><c:out value="${data.name}"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;剩余: <c:out value="${data.stockQuantity}"/></li>
+                   		<li id="${data.id}"><c:out value="${data.name}"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;剩余: <c:out value="${data.stockQuantity}"/></li>
                    	</c:forEach>
                      
                    </ul>
@@ -310,12 +312,21 @@
         </div>
     </div>
 </div>
-
+<div id="v1"></div>
 <div class="clear"></div>
 <jsp:include page="/WEB-INF/view/common/footer.jsp"/>
 
 <script type="text/javascript">
-   
+       $("#u1 li").click(function(){
+       
+       		   $(this).siblings('li').removeClass('selected');  // 删除其他兄弟元素的样式
+
+      		  $(this).addClass('selected'); 
+      		  var zhi = $(this).attr('id');
+      		  $("#v1").empty();
+      		 $("#v1").append("<input type='hidden' id='kouhongid' value='"+zhi+"'/>");
+       });
+      
    		$("#b1").toggle(function(){
    		     $("#u1").show();
    		},function(){
@@ -386,7 +397,29 @@
 
         $(".btn-cart").click(function () {
             //执行添加购物车
-            var goodsId = $("#goodsId").val();
+              // bjj update 
+               var goodsId = $("#goodsId").val();
+               if(goodsId == "3528"){
+                  goodsId = $("#kouhongid").val();
+                  //此处判断订单有没有
+                  if(goodsId ==null){
+                   alert("口红类型未选择");
+                   return;
+                  }
+               }
+                // bjj update
+                              //var zhi = $("#yincang").val();
+                              /*  if(goodsId==3525 || goodsId==3526 || goodsId==3527 || goodsId==3528 || goodsId==3529 ||goodsId==3530){
+                                 $.post("<c:url value='/pmall/shopcart/jianyan.json'/>",null,function(data){
+						              if(data==1){
+						                alert("股东仅限购一个口红");
+						                return;
+						                //window.location.href = "<c:url value='/dmz/pmall/show.html'/>";
+						              };
+						               
+						             }); 
+                               } */
+          
             var standardIds = [];
             var standardPrices = [];
             var standardNames = [];
@@ -434,6 +467,7 @@
                         if (xhr.status == 200) {//正确响应
                             var m = $.parseJSON(xhr.responseText);
                             if (m.flag == 0) {//加入购车成功
+                            	 $("#v1").empty();
                                 location.href = "<c:url value="/dmz/pmall/shopcart/index.html"/>";
                             } else {
                                 alert(m.message);
@@ -441,7 +475,10 @@
                         } else {
 //                        $.parseJSON(xhr.responseText)
                             console.log(xhr);
-                            alert("未知错误，请联系管理员！");
+                          
+                            	  alert("未知错误，请联系管理员！");
+                            
+                          
                         }
                     }
                 });

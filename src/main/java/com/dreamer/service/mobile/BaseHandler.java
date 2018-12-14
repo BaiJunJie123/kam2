@@ -53,6 +53,9 @@ public interface BaseHandler<T>  {
     
  // 只有股东才能看到口红
  	int findkam(String name);
-
+ 	//股东只能购买一个
+  	int findbuyKouhong(String kamnum);
+   
+  	// 订单查询
 
 }

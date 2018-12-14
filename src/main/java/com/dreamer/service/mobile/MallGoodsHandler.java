@@ -19,5 +19,7 @@ public interface MallGoodsHandler extends  BaseHandler<PmallGoods>{
     void  increaseMallGoodsAccount(PmallGoods pmallGoods, Integer qunatity);
 
     PmallGoodsStockBlotter changeStock(Admin admin, PmallGoods pmallGoods, Integer quantity, String remark);
-
+    
+  //股东只能购买一个
+  	int findbuyKouhong(String kamnum);
 }

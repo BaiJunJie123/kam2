@@ -27,7 +27,16 @@ import java.util.*;
 @Controller
 @RequestMapping("/delivery")
 public class DeliveryNoteQueryController {
-
+    // bjj update
+	@RequestMapping(value="/piliang.html",method=RequestMethod.GET)
+	public String piliang() {
+		
+		return "delivery/piliang";
+	}
+	
+	
+	
+	
 	@RequestMapping(value = "/index.html", method = RequestMethod.GET)
 	public String index(
 			@ModelAttribute("parameter") SearchParameter<DeliveryNote> parameter,
@@ -46,7 +55,7 @@ public class DeliveryNoteQueryController {
 		return "delivery/delivery_index";
 	}
 
-
+   // bjj  find  下载controller
 	@RequestMapping(value = "/download.html")
     @ResponseBody
 	public void download(

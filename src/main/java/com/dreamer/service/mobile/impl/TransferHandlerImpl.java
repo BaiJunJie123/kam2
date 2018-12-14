@@ -237,16 +237,19 @@ public class TransferHandlerImpl extends BaseHandlerImpl<Transfer> implements Tr
         return records;
     }
 
-
+    // bjj ** ====================================================
     @Override
     public List<Transfer> findTransfers(Integer uid, Integer nid) {
         DetachedCriteria dc = DetachedCriteria.forClass(Transfer.class);
+        System.out.println("UID:========="+uid+"  nid:=========="+nid);
         if (nid == null) {
             //收货人或者转货人是我
             dc.add(Restrictions.or(Restrictions.eq("fromAgent.id", uid), Restrictions.eq("toAgent.id", uid)));
+            System.out.println("======================收货人或者转货人");
         } else {
             //根据id查找
             dc.add(Restrictions.eq("id", nid));
+            System.out.println("======================根据id查找");
         }
         //时间倒序  查询30条
         dc.addOrder(Order.desc("id"));
@@ -254,6 +257,7 @@ public class TransferHandlerImpl extends BaseHandlerImpl<Transfer> implements Tr
         if (items == null) {
             items = new ArrayList<>();
         }
+        
         return items;
     }
 

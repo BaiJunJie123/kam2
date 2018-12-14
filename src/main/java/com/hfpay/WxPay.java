@@ -16,7 +16,7 @@ import java.util.HashMap;
  * Created by huangfei on 12/05/2017.
  */
 public class WxPay {
-
+     // bjj select  进入此处
     /**
      * 微信公众号统一下单，获取prepay_id 或者 code_url
      *
@@ -25,6 +25,7 @@ public class WxPay {
      */
     public static WxResult<UnifiedOrderResData> unifiedOrder(String appid,String mchid,String openid,String body,String out_trade_no,Double total_fee,String notify_url,String trade_type, String key) {
         WxResult<UnifiedOrderResData> result = new WxResult<>();
+        
         UnifiedOrderReqData unifiedOrderReqData = new UnifiedOrderReqData();
         unifiedOrderReqData.setAppid(appid);
         unifiedOrderReqData.setTrade_type(trade_type);

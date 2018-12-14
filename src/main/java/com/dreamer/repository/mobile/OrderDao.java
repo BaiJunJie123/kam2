@@ -21,7 +21,7 @@ import java.util.List;
 public class OrderDao extends BaseDaoImpl<Order> {
 
     public List<Order> findAllOrders(SearchParameter<Order> p) {
-        DetachedCriteria dc = DetachedCriteria.forClass(Order.class);
+        DetachedCriteria dc = DetachedCriteria.forClass(Order.class); // 要去数据库查这个表
         Example example = Example.create(p.getEntity()).enableLike(MatchMode.ANYWHERE);
         dc.add(example);
         if (p.getStartTime() != null && p.getEndTime() != null) {

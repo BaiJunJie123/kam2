@@ -296,6 +296,9 @@
                         <li class="list-group-item " style="text-align: right;">
                             <div class="row">
                                 <div class="col-xs-5"><p style="text-align: left;margin: 0">${item.value.goods.name}</p>
+                                  <c:if test="${item.value.goods.id==3525 || item.value.goods.id==3526 || item.value.goods.id==3527 || item.value.goods.id==3528 || item.value.goods.id==3529 || item.value.goods.id==3530}">
+                                    <input type="hidden" value="${item.value.goods.id}" id="yincang"/>
+                                  </c:if>
                                 </div>
                                 <div class="col-xs-2">X${item.value.quantity}</div>
                                 <div class="col-xs-5">￥${item.value.goods.retailPrice}+P${item.value.goods.ticketPrice}</div>
@@ -380,6 +383,7 @@
 
         $(".pay").click(function () {
 //            $(this).html("正在提交..");
+            
             var params = {};
             var remark = $(".remark").val();
 //            var transferWay = $(".transferWay").val();
@@ -453,13 +457,16 @@
 
         //直接发货
         function applyDelivery(params) {
+        	
             $.post("<c:url value='/pmall/shopcart/commit.json'/>",
                 params,
                 function (data, status, jqXHR) {
                     var m = data;
                     if (m.flag == "0") {
 //                        alert("订单提交成功，前往支付页面!");
-                        window.location.href = "<c:url value='/pmall/shopcart/pay.html?id='/>"+m.data;
+                             
+                                  	window.location.href = "<c:url value='/pmall/shopcart/pay.html?id='/>"+m.data;
+
                     } else {
                         alert("操作失败" + m.message);
                         $(".pay").button('reset');

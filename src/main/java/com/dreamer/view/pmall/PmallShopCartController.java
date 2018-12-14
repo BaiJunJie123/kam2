@@ -139,8 +139,22 @@ public class PmallShopCartController {
             return Message.createFailedMessage(exp.getMessage());
         }
     }
+    
 
-
+   // bjj 检验
+    @RequestMapping("/jianyan.json")
+    @ResponseBody
+    public Object jianyan(HttpServletRequest request) {
+    	 String jiname = request.getSession().getAttribute("jiname").toString();
+    	 int num = mallGoodsHandler.findbuyKouhong(jiname);
+    	 System.out.println(num+"=========================================");
+    	  int kk = 0;
+    	 if(num>0) {
+    		 kk = 1;
+    	 }
+    	 return kk;
+    }
+    
     @RequestMapping("/commit.json")
     @ResponseBody
     public Message commitOrder(AddressMy addressMy, String remark, HttpServletRequest request) {
@@ -153,7 +167,7 @@ public class PmallShopCartController {
             Agent agent = agentHandler.get(user.getId());
             addressMy.setAgent(agent);
             AddressClone address = addressCloneHandler.getFromAddressMy(addressMy);
-
+            
             Order order = orderHandler.commitOrder(agent, address, cart, remark);
             Message message = Message.createSuccessMessage();
             message.setData(String.valueOf(order.getId()));
@@ -184,6 +198,7 @@ public class PmallShopCartController {
     @RequestMapping("/accountsPay.json")
     @ResponseBody
     public Message accountsPay(Integer id, Integer accountsType, HttpServletRequest request) {
+    	System.out.println("进入==========================");
         try {
             User user = (User) WebUtil.getCurrentUser(request);
             Order order = orderHandler.get(id);

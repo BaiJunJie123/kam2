@@ -92,6 +92,10 @@ td{
 										name="search">
 									<span class="glyphicon glyphicon-search searchBtn"></span>&nbsp;下载
 								</button>
+								<button type="button" class="btn btn-danger  btn-re" id="piliang"
+										name="search">
+									<span class="glyphicon glyphicon-search searchBtn"></span>&nbsp;批量添加
+								</button>
 							</div>
 						</form>
 						<!-- </div> -->
@@ -248,7 +252,22 @@ td{
 	<jsp:include page="/WEB-INF/view/common/datepicker_js.jsp"></jsp:include>
 	<jsp:include page="/WEB-INF/view/common/script_common.jsp"></jsp:include>
 	<script type="text/javascript">
+	
+	
+		//bjj update 
+		
+		$("#piliang").click(function(){
+			 var url = "<c:url value='/delivery/piliang.html'/>";
+
+                window.location.href=url;
+		  
+		});
 		$(function() {
+		
+		
+		
+		
+		
 
 		    $("#downNew").click(function (e) {
                 e.stopPropagation();

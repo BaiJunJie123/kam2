@@ -62,7 +62,9 @@
     .col{
         text-align: center;
     }
-
+    /* #vv1{
+      width:500px;
+    } */
 
 
     /*#tagsList {position:relative; width:96%; height:250px; margin: 0px auto 0;  }*/
@@ -72,6 +74,7 @@
 <body style="background-color:#fbfbfb;">
 <div class="container">
     <header>
+    
         <%--<h1>优惠商城</h1>--%>
         <%--<p>咖盟微商 做有态度的玻尿酸</p>--%>
             <br>
@@ -133,6 +136,7 @@
                 <div  class="col-xs-4 col" >
                     <button  data-id="${type.id}" type="button" style="margin:5px 0;width: 100px;line-height: 30px"
                             class="button blue">${type.name}</button>
+                            
                 </div>
                 <c:if test="${sta.index+1==pTypes.size()}">
             </div>
@@ -148,49 +152,81 @@
         </div>
     </div>
 </div>
-<div class="demo_line_02"><span>今日主推区</span></div>
-<div class="row products">
+       
+         <div >            
+            <input type="hidden" value="${userAgentCode}" id="jindan"/>
+            <a href="http://192.168.124.8:7777/zajindan-1.0/cjrukou?userAgentCode=${userAgentCode} ">点击抽奖</a>
+            <button id="btjindan">点击砸金蛋</button>
+        </div>
+					
+         </div>
+        <div class="demo_line_02"><span>今日主推区</span></div>
+		<div class="row products">
 
 
     <c:forEach items="${ztGoods}" var="zt">
-     
+       
         <div class="col-xs-12 col-md-6 col">
-        <%--  <c:if test="${zt.name == '口红4'}">
-      	
-     	 </c:if> --%>
+       
             <a href="<c:url value='/dmz/pmall/detail.html?id='/>${zt.id}">
                 <img class="img-responsive" src="${dmzImgPath}${zt.wallImgUrl}" alt="${zt.name}">
             </a>
         </div>
     </c:forEach>
-
-    <div class="col-xs-12">
+       <div class="col-xs-12">
         <div class="demo_line_02"><span>产品分类区</span></div>
     </div>
 
+	</div>
+   
+   <%-- <c:if test="${shezhi != 'ok' }">
+            <div class="container">
+				<div class="row">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					    <button onclick="chou()">抽奖专区</button>
+					</div>
+			   </div>
+					
+         </div>
+         <div class="demo_line_02" style="display: ''"><span>今日主推区</span></div>
+		<div class="row products">
 
-    <%--<div class="col-xs-12 col-md-6">--%>
-    <%--<a href="#">--%>
-    <%--<img class="img-responsive" src="http://www.zmz365.com:8081/bb.jpeg" alt="产批名">--%>
-    <%--</a>--%>
-    <%--</div>--%>
-    <%--<div class="col-xs-12 col-md-6">--%>
-    <%--<a href="#">--%>
-    <%--<img class="img-responsive" src="http://www.zmz365.com:8081/bb1.jpeg" alt="产批名">--%>
-    <%--</a>--%>
-    <%--</div>--%>
 
-    <%--<div class="col-xs-12 col-md-6">--%>
-    <%--<a href="#">--%>
-    <%--<img class="img-responsive" src="http://www.zmz365.com:8081/bb2.jpeg" alt="产批名">--%>
-    <%--</a>--%>
-    <%--</div>--%>
-</div>
+    <c:forEach items="${ztGoods}" var="zt">
+     
+        <div class="col-xs-12 col-md-6 col" style="display: ''">
+       
+            <a href="<c:url value='/dmz/pmall/detail.html?id='/>${zt.id}">
+                <img class="img-responsive" src="${dmzImgPath}${zt.wallImgUrl}" alt="${zt.name}">
+            </a>
+        </div>
+    </c:forEach>
+       <div class="col-xs-12">
+        <div class="demo_line_02"><span>产品分类区</span></div>
+    </div>
+
+	</div>
+   </c:if> --%>
+
+
+
+
+  
 <div id="ajax_loading" style="width:300px;margin: 10px  auto 15px;text-align:center;">
     <img src="http://www.zmz365.com:8081/loading.gif">
 </div>
+<!-- bjj jiaru -->
+<input type="text" id="choujiname" style="display: none" value="<c:out value='${jiname}'/>"/>
+<input type="text" id="choujipass" style="display: none" value="<c:out value='${jipass}'/>"/>
+
 <jsp:include page="/WEB-INF/view/common/footer.jsp"/>
 </div>
+
+<div class="timebox" style="position: fixed; top: 40%; left: 40%; z-index: 1000; display:none;">
+	<img src="loading2.gif" />
+    <div id="time" style="color:#fff;">3秒后进入首页</div>
+</div>
+<div class="black" style=" display:none;width:100%; height:100%; background: rgba(0,0,0,.6); position: fixed; top: 0; left: 0; z-index: 999;"></div>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
@@ -199,12 +235,53 @@
 
 <%--<script type="text/javascript" src="http://www.zmz365.com:8081/data/tags.js"></script>--%>
 <script type="text/javascript">
-
+    
+    var t = 3;
+    
+     $("#btjindan").click(function(){
+        $(".timebox").show();
+        $(".black").show();
+        //定时器，每间隔1秒钟调用一次函数
+        setInterval('jishi()', 1000);
+     });
+     
+     function jishi() {
+     var  btdata = $("#jindan").val();
+        if (t==1) {
+            window.location.href = 'http://192.168.124.8:7777/eggFrenzy/index.html?kamnum='+btdata;  //缓冲完成后，页面跳转到首页
+        }
+        t--; //自减，实现倒计时
+        document.getElementById("time").innerHTML = t + "秒后进入首页";
+     };
+    
+    
     $(function () {
+      $("#chou").click(function(){
+         var choujiname = $("#choujiname").val();
+          var choujipass = $("#choujipass").val();
+       
+          //window.location.href = "http://192.168.124.20:7777/bt/dome.html?name="+choujiname+"&pass="+choujipass;
+           var url = "http://192.168.124.20:7777/newkk-0.0.1-SNAPSHOT/chuanzhi";
+           var ss = {"name":choujiname,"pass":choujipass};
+           $.post(url,ss,function(data){
+              //alert("bbb");
+              if(data.status=="success"){
+                  var zhi = data.userid;
+                 window.location.href = "http://192.168.124.20:7777/bt/dome.html";
+              }else{
+                alert("您不是新用户或者你的身份为游客");
+              }
+              
+           });
+      });
+    
+    
         $.ajaxSettings.async = false;
         $(".col>button").click(function (e) {
             e.preventDefault();
             e.stopPropagation();
+            // bjj update
+            
             var url = "<c:url value='/dmz/pmall/show.html?pType='/>" + $(this).attr("data-id");
             window.location.href = url;
         });
@@ -324,15 +401,15 @@
 //                    }
                         var item = "<div class=\"col-xs-12 col col-md-6\">\n" +
                             "<a href=\"" + url + "\">\n" +
-                            "<img style='max-height: 300px' class=\"img-responsive\" src=\"" + img + "\" alt=\"" + goods.name + "\">\n" +
+                             goods.name+ 
                             "</a>\n" +
                             "</div>";
-                        if (img.indexOf("null") > -1) {
+                        /* if (img.indexOf("null") > -1) {
 
-                        } else {
+                        } else { */ 
                             imgShare = img;
                             $(".products").append($(item));
-                        }
+                        /* } */
 
                     });
                     start += goodses.length;

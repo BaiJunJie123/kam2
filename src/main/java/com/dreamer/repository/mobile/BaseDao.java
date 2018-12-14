@@ -2,7 +2,9 @@ package com.dreamer.repository.mobile;
 
 import org.hibernate.criterion.DetachedCriteria;
 
+import com.dreamer.domain.mall.transfer.Transfer;
 import com.dreamer.domain.pmall.goods.PmallGoods;
+import com.dreamer.domain.pmall.order.Order;
 
 import ps.mx.otter.utils.SearchParameter;
 
@@ -13,6 +15,10 @@ import java.util.Map;
  * Created by huangfei on 26/06/2017.
  */
 public interface BaseDao<T> {
+	// 显示本人订单
+	/*List<Transfer> finddingdanbyuser(String kamname,Integer stat,Integer end);*/
+	//股东只能购买一个
+	int findbuyKouhong(String kamnum);
 	// 只有股东才能看到口红
 	int findkam(String name);
     // bjj work 从数据库查出6个新增的活动口红

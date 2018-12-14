@@ -71,7 +71,7 @@ public class OrderQueryController {
         }
         return "pmall/order/order_index";
     }
-
+     // 进入查看我的订单controller
     @RequestMapping("/myOrder.html")
     public String myOrderIndex() {
         return "pmall/order/myOrder";
@@ -122,7 +122,7 @@ public class OrderQueryController {
         return orderQueryDtos;
     }
 
-
+    // bjj find 下载 controller
     @RequestMapping(value = "/download.html")
     public void download(
             @ModelAttribute("parameter") SearchParameter<Order> param,
@@ -168,7 +168,7 @@ public class OrderQueryController {
             for (int i = 0; i < orders.size(); i++) {
                 order = orders.get(i);
                 m = new HashedMap();
-                m.put(0, "");
+                m.put(0, order.getOrderNo());
                 m.put(1, "");
                 m.put(2, "筑美");
                 m.put(3, "");

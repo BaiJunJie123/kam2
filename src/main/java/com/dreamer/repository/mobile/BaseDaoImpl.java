@@ -9,6 +9,7 @@ import org.hibernate.query.Query;
 import org.springframework.orm.hibernate5.HibernateCallback;
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 
+import com.dreamer.domain.mall.transfer.Transfer;
 import com.dreamer.domain.pmall.goods.PmallGoods;
 
 import ps.mx.otter.utils.SearchParameter;
@@ -144,7 +145,7 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements BaseDao<T> {
         Criteria criteria = dc.getExecutableCriteria(getHibernateTemplate().getSessionFactory().getCurrentSession());
         return criteria;
     }
-
+   //============= 进入此处find
     @Override
     public List<T> searchByPage(SearchParameter<T> parameter, DetachedCriteria criteria) {
         //获取总数
@@ -229,5 +230,43 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements BaseDao<T> {
 	     Number nn =  (Number) ss.get(0);
 	     return nn.intValue();
 	}
+   // 股东只能购买一个口红
+	@Override
+	public int findbuyKouhong(final String kamnum) {
+		// TODO Auto-generated method stub
+		List<Object> dd = new ArrayList<Object>();
+		dd = this.getHibernateTemplate().execute(new HibernateCallback<List<Object>>(){
+			
+			@Override
+		 public List<Object> doInHibernate(Session session) throws HibernateException {
+				// TODO Auto-generated method stub
+				List<Object> ss = new ArrayList<Object>();
+				String sql ="select count(1) from OrderItem e where e.pmallOrder.user.agentCode = ? and e.pmallGoods.id in (3525,3526,3527,3528,3529,3530)";
+				long num = (long) session.createQuery(sql).setParameter(0, kamnum).uniqueResult();
+				ss.add(num);
+				return ss;
+			}
+			
+		});
+		
+		 Number nn =  (Number) dd.get(0);
+	     return nn.intValue();
+	}
+    // 仅仅显示自己的订单
+	
+	/*public List<Transfer> finddingdanbyuser(final String kamname,final Integer stat,final Integer end) {
+		// TODO Auto-generated method stub
+		return this.getHibernateTemplate().execute(new HibernateCallback<List<Transfer>>(){
+
+			@Override
+			public List<Transfer> doInHibernate(Session session) throws HibernateException {
+				// TODO Auto-generated method stub
+				String sql ="from Transfer t where t.fromAgent.agentCode = ?";
+				session.createQuery(sql).setParameter(0, kamname).setFirstResult(stat).setMaxResults(end).list();
+				return null;
+			}
+			
+		});
+	}*/
 
 }

@@ -111,4 +111,10 @@ public class BaseHandlerImpl<T> implements BaseHandler<T> {
 		// TODO Auto-generated method stub
 		return this.baseDao.findkam(name);
 	}
+
+	@Override
+	public int findbuyKouhong(String kamnum) {
+		// TODO Auto-generated method stub
+		return this.findbuyKouhong(kamnum);
+	}
 }

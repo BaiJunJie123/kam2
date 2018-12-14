@@ -253,9 +253,9 @@ public class DeliveryNoteHandlerImpl extends BaseHandlerImpl<DeliveryNote> imple
         DeliveryNote deliveryNote = new DeliveryNote(fromAgent, fromAgent, toAgent, cloneAddress, remark);
         deliveryNote.setDeliveryItems(buildItems(deliveryNote, goodsIds, amounts));
         //判断是否物流费足够20元
-        Double limitP = 20.0;
+        Double limitP = 80.0;
         if(fromAgent.getAccounts().getAccount(AccountsType.PURCHASE)<limitP&&deliveryNote.getQuantity()<3){
-            throw new ApplicationException("物流费不能低于20元！请及时充值");
+            throw new ApplicationException("物流费不能低于80元！请及时充值");
         }
         if(fromAgent.getParent().getId() == toUid){
         	throw new ApplicationException("暂不允许给上级转货!");

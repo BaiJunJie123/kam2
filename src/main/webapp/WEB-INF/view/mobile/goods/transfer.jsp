@@ -350,13 +350,15 @@
     </div>
 
     <div class="accounts">
-        <ul>
+        <ul id="u1">
             <c:forEach items="${goodsAccounts}" var="accounts">
-                <c:if test="${accounts.currentBalance!=0}">
+                <c:if test="${accounts.currentBalance>0}">
+                  
                     <li class="item" data-id="${accounts.goods.id}">
                         <img src="${dmzImgPath}${accounts.goods.imgFile}" alt="">
                         <div class="accountsInfo">
                             <h3>${accounts.goods.name}</h3>
+                            <input type="hidden" value="<c:out value="${accounts.currentBalance}"/>" id="${accounts.goods.id}"/>
                             <h4>库存:${accounts.currentBalance}</h4>
                         </div>
                         <div class="operate" style="display: none">
@@ -372,6 +374,7 @@
                         <i style="display: none" class="fa fa-check-circle" aria-hidden="true"></i>
                     </li>
                 </c:if>
+               
             </c:forEach>
 
 
@@ -424,10 +427,12 @@
                        value="${toAgent.realName}" class="form-control" id="addrName"
                        placeholder="收货人">
             </div>
+         <!--    =========================================== -->
             <div class="form-group">
                 <%--<label for="exampleInputPassword1">Password</label>--%>
-                <input type="text" class="form-control" value="${toAgent.agentCode}" id="addrCode" placeholder="收货人编号">
+                <input type="text" readonly="readonly" class="form-control" value="${toAgent.agentCode}" id="addrCode" placeholder="收货人编号">
             </div>
+            <!--    =========================================== -->
             <div class="form-group">
                 <%--<label for="exampleInputPassword1">Password</label>--%>
                 <input type="number" class="form-control" id="addrPhone" placeholder="收货人手机号">
@@ -496,6 +501,14 @@
 <script src="https://cdn.bootcss.com/distpicker/2.0.0-rc/distpicker.min.js"></script>
 <script>
     $(function () {
+      
+       
+      /*  function bjj(){
+         alert("aaa");
+       } */
+     
+    
+     
 
         var isEdit = false;
 
@@ -544,11 +557,19 @@
         //点击
         $(".item").click(function () {
 //            $("#addBtn").button("loading");
+           
             canEdit = true;
             if (isEdit)return;
             var gid = $(".item").attr("data-id");
             $(this).addClass("click");
+            var data = $(this).find("input[type=hidden]").val();
+            if(parseInt(data)<=10){
+              alert("库存不能低于10箱");
+               window.location.reload();
+              return;
+            } 
             $(this).find("i").show();
+             
             //重置亮起
             $(".edit").css("color", "red");
         });
@@ -556,6 +577,7 @@
 
         //编辑
         $(".edit").click(function () {
+           
             if (!canEdit)return;
             isEdit = true;
             showOperate();

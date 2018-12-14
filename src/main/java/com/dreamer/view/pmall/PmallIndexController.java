@@ -3,7 +3,10 @@ package com.dreamer.view.pmall;
 import com.dreamer.domain.comment.Comment;
 import com.dreamer.domain.pmall.goods.PmallGoods;
 import com.dreamer.domain.pmall.goods.PmallGoodsType;
+import com.dreamer.domain.user.Agent;
+import com.dreamer.domain.user.User;
 import com.dreamer.service.Comment.CommentHandler;
+import com.dreamer.service.mobile.AgentHandler;
 import com.dreamer.service.mobile.MallGoodsHandler;
 import com.dreamer.service.mobile.MallGoodsTypeHandler;
 import com.dreamer.service.mobile.factory.WxConfigFactory;
@@ -63,10 +66,18 @@ public class PmallIndexController {
     //==================bjj update 只有股东才会显示活动口红
     @RequestMapping(value = {"/show.html", "/show"}, method = RequestMethod.GET)
     public String show(@ModelAttribute("parameter") SearchParameter<PmallGoods> parameter, HttpServletRequest request, Model model, Integer myCode) {
-
+       
         String url = ServletUriComponentsBuilder.fromRequest(request).toUriString();
         String appid = wxConfigFactory.getBaseConfig().getAppid();
         String jsonParam = JSAPI.createWxConfig(appid, TokenInfo.getJsapiTicket(appid),TokenInfo.getAccessToken(appid),url).toString();
+        System.out.println(url+"==================================");
+        String zhi = url.substring(url.length()-1,url.length());
+        if(zhi.equals("8")) {
+        	request.getSession().setAttribute("shezhi", "ok");
+        }else {
+        	request.getSession().setAttribute("shezhi", "");
+        }
+        
         if(!WebUtil.isLogin(request)&&myCode!=null){
             request.getSession().setAttribute("refCode",myCode);
         }
@@ -75,6 +86,7 @@ public class PmallIndexController {
         List<PmallGoodsType> list =mallGoodsTypeHandler.findSubType();
         if(list!=null&&!list.isEmpty()){
             Map map = new HashedMap();
+           
             map.put("goodsType.id",list.get(0).getId());
             map.put("shelf",true);//只显示上架的
             List<PmallGoods> ms = mallGoodsHandler.getList(map);
@@ -115,9 +127,14 @@ public class PmallIndexController {
         }
         model.addAttribute("jsapiParamJson", jsonParam);
         model.addAttribute("pTypes",list);
+       
         list.remove(0);
         model.addAttribute("pType",list.get(0).getId());//首次只展示这种分类
         
+        
+        User user = (User) WebUtil.getCurrentUser(request);
+        Agent agent = agentHandler.get(user.getId());
+        model.addAttribute("userAgentCode",agent.getAgentCode());
         return "pmall/pmall_show";
     }
 
@@ -141,6 +158,7 @@ public class PmallIndexController {
     public String detail(@RequestParam("id") Integer id, HttpServletRequest request, Integer myCode, Model model) {
         try {
             PmallGoods g = mallGoodsHandler.get(id);
+           
          // bjj work kouhong 
             List<PmallGoods> kouhong = mallGoodsHandler.findkonghong();
             PointsGoodsDTO dto = new PointsGoodsDTO();
@@ -270,7 +288,8 @@ public class PmallIndexController {
     }
 
 
-
+    @Autowired
+    AgentHandler agentHandler;
 
     @Autowired
     private WxConfigFactory wxConfigFactory;

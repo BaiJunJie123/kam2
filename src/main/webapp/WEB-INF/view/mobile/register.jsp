@@ -254,7 +254,7 @@ var idCardNoUtil = {
 	        return idCardNoUtil.parityBit[mod];
 	    },
 	    checkParityBit: function(idCardNo) {
-	        var parityBit = idCardNo.charAt(17).toUpperCase();   
+	        var parityBit = idCardNo.charAt(17).toUpperCase(); 
 	        if (idCardNoUtil.getParityBit(idCardNo) == parityBit) {
 	            return true;
 	        } else {

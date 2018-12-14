@@ -7,6 +7,7 @@ import com.dreamer.domain.user.User;
 import com.dreamer.domain.wechat.WxConfig;
 import com.dreamer.service.mobile.AddressMyHandler;
 import com.dreamer.service.mobile.AgentHandler;
+import com.dreamer.service.mobile.MallGoodsHandler;
 import com.dreamer.service.mobile.OrderHandler;
 import com.dreamer.service.mobile.PayHandler;
 import com.dreamer.service.mobile.factory.WxConfigFactory;
@@ -51,27 +52,32 @@ public class PmallShopCartQueryController {
     //去支付
     @RequestMapping(value = "/pay.html")
     public String pay(HttpServletRequest request, Model model, String id) {
+    	System.out.println("aaaaaaaaaa========================");
         User user = (User) WebUtil.getCurrentUser(request);
         Agent agent = agentHandler.get(user.getId());
+        //Agent agent = agentHandler.get(35718);
         //获取订单
         Order order = orderHandler.get(Integer.valueOf(id));
         if (order == null) {
             model.addAttribute("message", "订单不存在!");
             return "mobile/error";
         }
+        
         //没有支付的openid 就去获取
         WxConfig wxConfig = wxConfigFactory.getBaseConfig();
         //获取实际支付金额
         Double amount = orderHandler.getActualAmount(order);
+        System.out.println(amount+"==============支付金额");
         //获取实际支付积分
         Double ticket = orderHandler.getActualAdvance(order);
         String jsApiParam = "{}";
         if(amount>0){//如果需要付款
             WxConfig payConfig = wxConfigFactory.getPayConfig();
-            if(payConfig.getOpen()){//支付配置开启
+            if(true){//支付配置开启  payConfig.getOpen()
                 //跳转到获取支付openid的地址
                 String redirectUrl = ServletUriComponentsBuilder.fromContextPath(request).path("/dmz/pmall/shopcart/callBack.html").build().toString();
                 String url = JSAPI.createGetCodeUrl(payConfig.getAppid(), redirectUrl, "snsapi_base", String.valueOf(order.getId()));
+                System.out.println(url+"==============URL");
                 return "redirect:" + url;
             }
             jsApiParam = payHandler.toWxPay(wxConfig, agent.getWxOpenid(), order.getOrderNo(), amount, WxConfig.PMALL_NOTICE_URL);
@@ -82,6 +88,7 @@ public class PmallShopCartQueryController {
         model.addAttribute("order", order);
         model.addAttribute("amount",amount);
         model.addAttribute("ticket",ticket);
+       System.out.println("走了==================================");
         return "pmall/shopcart/pay";
     }
 
@@ -118,7 +125,6 @@ public class PmallShopCartQueryController {
         return "pmall/shopcart/pay";
 
     }
-
 
     @Autowired
     private OrderHandler orderHandler;

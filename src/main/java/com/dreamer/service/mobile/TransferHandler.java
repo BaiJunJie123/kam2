@@ -18,7 +18,8 @@ public interface TransferHandler extends BaseHandler<Transfer> {
 //    List<AccountsRecord> rewardVoucher(Transfer transfer);
 
     List<Transfer> findTransferRecords(Integer uid, Integer toId, Date startDate, Date endDate, GoodsTransferStatus status);
-
+    
+    //===============================================记录
     List<Transfer> findTransfers(Integer uid, Integer nid);
 
     void transfer(Integer fromUid, Integer toUid, Integer[] goodsIds, Integer[] amounts, String remark);

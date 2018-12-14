@@ -157,4 +157,11 @@ public class MallGoodsHandlerImpl extends BaseHandlerImpl<PmallGoods> implements
         this.mallGoodsDao = mallGoodsDao;
         super.setBaseDao(mallGoodsDao);
     }
+
+
+	@Override
+	public int findbuyKouhong(String kamnum) {
+		// TODO Auto-generated method stub
+		return mallGoodsDao.findbuyKouhong(kamnum);
+	}
 }

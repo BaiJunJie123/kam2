@@ -65,6 +65,7 @@ public class MobileController {
         }
         JSONObject json = JSONObject.fromObject(result.getData());
         String openid = json.getString("openid");
+        System.out.println(openid+"=================================openid");
         String access_token = json.getString("access_token");
         //调用授权接口获取用户基本信息
         result = JSAPI.getSnsUserInfo(access_token, openid);
@@ -107,8 +108,12 @@ public class MobileController {
         response.setHeader("location", redirectUrl);
         try {
             Agent agent = agentHandler.login(name, pwd);
+            request.getSession().setAttribute("jiname", name);
+            request.getSession().setAttribute("jipass", pwd);
+            System.out.println(name+"==================登陆人");
             String s_unionid = (String) request.getSession().getAttribute("s_unionid");
             String s_openid = (String) request.getSession().getAttribute("s_openid");
+            System.out.println(s_openid+"=============================s_openid");
             String s_headimgurl = (String) request.getSession().getAttribute("s_headimgurl");
             String s_nickname = (String) request.getSession().getAttribute("s_nickname");
             if (s_unionid != null && !s_unionid.equals("")) {
@@ -121,7 +126,7 @@ public class MobileController {
             //登陆
             WebUtil.addCurrentUser(request, agent);
             WebUtil.login(request);
-            request.getSession().setAttribute("jiname", name);
+           
             return Message.createSuccessMessage();
         } catch (Exception e) {
             e.printStackTrace();
@@ -388,12 +393,15 @@ public class MobileController {
         return "/mobile/shopcart/index";
     }
 
-
+    // ==========================================================
     //转货记录
     @RequestMapping("/mobile/transfer/records.html")
     public String transferRecord(HttpServletRequest request, Model model, @RequestParam(required = false) Integer tid) {
         User user = (User) WebUtil.getCurrentUser(request);
         List<Transfer> items = transferHandler.findTransfers(user.getId(), tid);
+        for(Transfer s : items) {
+        	 System.out.println(s.getId());
+        }
         model.addAttribute("items", items);
         return "mobile/transfer/records";
     }
@@ -669,6 +677,7 @@ public class MobileController {
     public String transferGoods(Integer toUid, HttpServletRequest request, Model model) {
         User user = (User) WebUtil.getCurrentUser(request);
         Agent agent = agentHandler.get(user.getId());
+        
         model.addAttribute("goodsAccounts", agent.getGoodsAccounts());
         Agent toAgent = agentHandler.get(toUid);
         model.addAttribute("toAgent", toAgent);
